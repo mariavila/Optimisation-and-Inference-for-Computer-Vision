@@ -60,6 +60,7 @@ imshow(Iinp)
 title('After');
 
 %% Challenge image. (We have lost 99% of information)
+
 clearvars
 I=double(imread('image6_toRestore.jpg'));
 %Normalize values into [0,1]
@@ -88,6 +89,7 @@ Iinp(:,:,3)=sol_Laplace_Equation_Axb(I(:,:,3), mask(:,:,3), param);
 figure(2)
 imshow(Iinp)
 title('After');
+%{
 
 %% Goal Image
 clearvars;
@@ -132,3 +134,4 @@ Iinp(:,:,3)=sol_Laplace_Equation_Axb(I_ch3, mask, param);
 figure(2)
 imshow(Iinp)
 title('After');
+%}
