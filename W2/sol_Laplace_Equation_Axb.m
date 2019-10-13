@@ -143,12 +143,9 @@ for j=2:nj+1
             idx_Aj(idx) = p-(ni+2);
             a_ij(idx) = -1;   
             idx=idx+1;
-            
-            if (isfield(param, 'driving'))
-                b(p) = param.driving(p);
-            else
-                b(p) = 0
-            end    
+
+            b(p) = 0;
+    
         else %we do not have to inpaint this pixel 
             
             %Fill Idx_Ai, idx_Aj and a_ij with the corresponding values and
@@ -174,3 +171,4 @@ end
     
     %Eliminate the ghost boundaries
     u=full(u_ext(2:end-1, 2:end-1));
+    
