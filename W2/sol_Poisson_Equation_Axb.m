@@ -1,4 +1,4 @@
-function [u] = sol_Laplace_Equation_Axb(f, dom2Inp, param)
+function [u] = sol_Poisson_Equation_Axb(f, dom2Inp, param)
 %this code is not intended to be efficient. 
 
 [ni, nj]=size(f);
@@ -143,8 +143,12 @@ for j=2:nj+1
             idx_Aj(idx) = p-(ni+2);
             a_ij(idx) = -1;   
             idx=idx+1;
-
-            b(p) = 0;
+            
+            if (isfield(param, 'driving'))
+                b(p) = param.driving(i, j);
+            else
+                b(p) = 0;
+            end
     
         else %we do not have to inpaint this pixel 
             
