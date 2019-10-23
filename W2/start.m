@@ -13,18 +13,12 @@ mask_dst=logical(imread('mask_dst_eyes.png'));
 
 for nC = 1: nChannels
     
-    %TO DO: COMPLETE the ??
     drivingGrad_i = - sol_DiFwd(src(:,:,nC), param.hi) + sol_DiBwd(src(:,:,nC),param.hi);
-    %TO DO: COMPLETE the ??
     drivingGrad_j = - sol_DjFwd(src(:,:,nC), param.hj) + sol_DjBwd(src(:,:,nC),param.hj);
-    
-    %TO DO: COMPLETE the ??
     driving_on_src = (drivingGrad_i + drivingGrad_j);
     
     driving_on_dst = zeros(size(src(:,:,1)));   
     driving_on_dst(mask_dst(:)) = driving_on_src(mask_src(:));
-    aux = dst(:,:,nC);
-    aux(mask_dst(:)) = driving_on_src(mask_src(:));
     
     param.driving = driving_on_dst;
 

@@ -1,4 +1,5 @@
-grayImage = imread('panda_snow.jpg');
+%grayImage = imread('panda_snow.jpg');
+grayImage = imread('paraglider2.jpg');
 imshow(grayImage, []);
 
 % Ask user to draw freehand mask.
@@ -14,12 +15,13 @@ subplot(1, 2, 1);
 imshow(grayImage, []);
 axis on;
 drawnow;
-title('Original gray scale image', 'FontSize', fontSize);
+title('Original gray scale image');
 
 % Display the freehand mask.
 subplot(1, 2, 2);
 imshow(binaryImage);
 axis on;
-title('Binary mask of the region', 'FontSize', fontSize);
+title('Binary mask of the region');
 
-imwrite(binaryImage,'panda_snow_mask.jpg')
+imwrite(binaryImage,'paraglider_mask2.jpg')
+%imwrite(binaryImage,'panda_snow_mask.jpg')
