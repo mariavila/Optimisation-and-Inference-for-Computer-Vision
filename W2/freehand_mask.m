@@ -1,5 +1,6 @@
 %grayImage = imread('panda_snow.jpg');
-grayImage = imread('paraglider2.jpg');
+%grayImage = imread('paraglider2.jpg');
+grayImage = imread('snowman.png');
 imshow(grayImage, []);
 
 % Ask user to draw freehand mask.
@@ -23,5 +24,6 @@ imshow(binaryImage);
 axis on;
 title('Binary mask of the region');
 
-imwrite(binaryImage,'paraglider_mask2.jpg')
+imwrite(binaryImage,'snowman_mask.jpg')
+%imwrite(binaryImage,'paraglider_mask2.jpg')
 %imwrite(binaryImage,'panda_snow_mask.jpg')

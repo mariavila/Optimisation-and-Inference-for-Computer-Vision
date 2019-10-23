@@ -1,8 +1,10 @@
 clearvars;
-dst = double(imread('pista_esqi.jpg'));
-src = double(imread('panda_snow.jpg'));
-%dst = imread('mountain.jpg'); 
-%src = imread('paraglider2.jpg'); 
+%dst = double(imread('pista_esqi.jpg'));
+%src = double(imread('panda_snow.jpg'));
+%src = double(imread('snowman.png'));
+%dst = double(imread('underwater.png'));
+dst = double(imread('mountain.jpg')); 
+src = double(imread('paraglider.jpg')); 
 [ni,nj, nChannels]=size(dst);
 
 param.hi=1;
@@ -10,14 +12,15 @@ param.hj=1;
 
 
 %masks to exchange
-mask_src = imread('panda_snow_mask.jpg');
-%mask_src = imread('paraglider_mask2.jpg');
+%mask_src = imread('panda_snow_mask.jpg');
+mask_src = imread('paraglider_mask.jpg');
+%mask_src = imread('snowman_mask.jpg');
 mask_dst = zeros(size(dst(:,:,1)));
 [height, width] = size(mask_src);
-iniX = 250;
-iniY = 198;
-%iniX = 1;
-%iniY = 1;
+%iniX = 700;
+%iniY = 450;
+iniX = 150;
+iniY = 100;
 fiX = iniX + width - 1;
 fiY = iniY + height - 1;
 mask_dst(iniY:fiY, iniX:fiX) = mask_src;
