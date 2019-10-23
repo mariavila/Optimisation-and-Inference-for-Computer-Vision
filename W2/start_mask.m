@@ -72,7 +72,7 @@ for nC = 1: nChannels
     size(guidanceField)
     size(driving_on_src)
     
-    driving_on_src = driving_on_src + guidanceField(1:303,1:637);
+    driving_on_src = driving_on_src + guidanceField(1:size(driving_on_src,1),1:size(driving_on_src,2));
     
     driving_on_dst = zeros(size(dst(:,:,1)));
     driving_on_dst(mask_dst(:)) = driving_on_src(mask_src(:));
