@@ -29,16 +29,18 @@ while dif>tol && nIter<iterMax
     nIter=nIter+1;        
     
     
+    %NO SE COM FER-HO
     %Fixed phi, Minimization w.r.t c1 and c2 (constant estimation)
     c1 = ??; %TODO 1: Line to complete
     c2 = ??; %TODO 2: Line to complete
     
-    %Boundary conditions
-    phi(1,:)   = ??; %TODO 3: Line to complete
-    phi(end,:) = ??; %TODO 4: Line to complete
+    %Boundary conditions. HA DE SER COPIAR EL PIXEL DE MES APROP. POT NO
+    %ESTAR BÉ
+    phi(1,:)   = phi(2,:); %TODO 3: Line to complete
+    phi(end,:) = phi(end-1,:); %TODO 4: Line to complete
 
-    phi(:,1)   = ??; %TODO 5: Line to complete
-    phi(:,end) = ??; %TODO 6: Line to complete
+    phi(:,1)   = phi(:,2); %TODO 5: Line to complete
+    phi(:,end) = phi(:,end-1); %TODO 6: Line to complete
 
     
     %Regularized Dirac's Delta computation
@@ -46,25 +48,24 @@ while dif>tol && nIter<iterMax
     
     %derivatives estimation
     %i direction, forward finite differences
-    phi_iFwd  = ??; %TODO 7: Line to complete
-    phi_iBwd  = ??; %TODO 8: Line to complete
+    phi_iFwd  = DiFwd(phi,hi); %TODO 7: Line to complete
+    phi_iBwd  = DiBwd(phi,hi); %TODO 8: Line to complete
     
     %j direction, forward finitie differences
-    phi_jFwd  = ??; %TODO 9: Line to complete
-    phi_jBwd  = ??; %TODO 10: Line to complete
+    phi_jFwd  = DjFwd(phi,hj); %TODO 9: Line to complete
+    phi_jBwd  = DjBwd(phi,hj); %TODO 10: Line to complete
     
     %centered finite diferences
-    phi_icent   = ??; %TODO 11: Line to complete
-    phi_jcent   = ??; %TODO 12: Line to complete
+    phi_icent   = phi_iFwd + phi_iBwd; %TODO 11: Line to complete
+    phi_jcent   = phi_jFwd + phi_jBwd; %TODO 12: Line to complete
     
     %A and B estimation (A y B from the Pascal Getreuer's IPOL paper "Chan
     %Vese segmentation
-    A = ??; %TODO 13: Line to complete
-    B = ??; %TODO 14: Line to complete
-    
-    
-    %%Equation 22, for inner points
-    phi(??) = ??; %TODO 15: Line to complete
+    A = mu/sqrt(eta^2 + phi_iFwd^2 + (phi_jcent/2)^2); %TODO 13: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
+    B = mu/sqrt(eta^2 + (phi_icent/2)^2 + (-phi_iFwd)^2); %TODO 14: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
+        
+    %%Equation 22, for inner points AQUESTA LINIA ESTA MAL
+    phi(2:end-1,2:end-1) = phi + dt*delta_phi*()-nu-lambda1*(I-c1)^2+lambda2*(I-c2)^2/(1+dt*delta_phi*); %TODO 15: Line to complete
     
             
     %Reinitialization of phi
