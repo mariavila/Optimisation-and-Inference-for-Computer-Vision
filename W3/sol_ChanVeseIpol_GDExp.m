@@ -31,8 +31,12 @@ while dif>tol && nIter<iterMax
     
     %NO SE COM FER-HO
     %Fixed phi, Minimization w.r.t c1 and c2 (constant estimation)
-    c1 = ??; %TODO 1: Line to complete
-    c2 = ??; %TODO 2: Line to complete
+    c1 = ((sum(sum(I))/2) + (2/pi)*sum(sum(I*atan(phi/epHeaviside))))/((ni*nj/2) + (2/pi)*sum(sum(atan(phi/epHeaviside)))); %TODO 1: Line to complete
+    c2 = ((sum(sum(I))/2) - (1/pi)*sum(sum(I*atan(phi/epHeaviside))))/((ni*nj/2) - (1/pi)*sum(sum(atan(phi/epHeaviside)))); %TODO 2: Line to complete
+    
+    size(c1)
+    size(c2)
+    
     
     %Boundary conditions. HA DE SER COPIAR EL PIXEL DE MES APROP. POT NO
     %ESTAR BÉ
@@ -61,11 +65,22 @@ while dif>tol && nIter<iterMax
     
     %A and B estimation (A y B from the Pascal Getreuer's IPOL paper "Chan
     %Vese segmentation
-    A = mu/sqrt(eta^2 + phi_iFwd^2 + (phi_jcent/2)^2); %TODO 13: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
-    B = mu/sqrt(eta^2 + (phi_icent/2)^2 + (-phi_iFwd)^2); %TODO 14: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
-        
-    %%Equation 22, for inner points AQUESTA LINIA ESTA MAL
-    phi(2:end-1,2:end-1) = phi + dt*delta_phi*()-nu-lambda1*(I-c1)^2+lambda2*(I-c2)^2/(1+dt*delta_phi*); %TODO 15: Line to complete
+    
+    for i = 2:ni-1
+        for j = 2:nj-1
+            A(i,j) = mu/sqrt(eta^2 + phi_iFwd(i,j)^2 + (phi_jcent(i,j)/2)^2); %TODO 13: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
+            B(i,j) = mu/sqrt(eta^2 + (phi_icent(i,j)/2)^2 + (-phi_iFwd(i,j))^2); %TODO 14: Line to complete INDEX DE LES N NO TINGUTS EN COMPTE
+        end
+    end
+    
+    size(delta_phi)
+    
+    %%Equation 22, for inner points 
+    for i = 2:ni-1
+        for j = 2:nj-1
+            phi(i,j) = (phi(i,j) + dt*delta_phi(i,j)*(A(i,j)*phi(i+1,j) + A(i-1,j)*phi(i-1,j) + B(i,j)*phi(i,j+1) + B(i,j-1)*phi(i,j-1))-nu-lambda1*(I(i,j)-c1)^2+lambda2*(I(i,j)-c2)^2)/(1+dt*delta_phi(i,j)*(A(i,j)+A(i-1,j)+B(i,j)+B(i,j-1))); %TODO 15: Line to complete
+        end
+    end
     
             
     %Reinitialization of phi
@@ -84,14 +99,15 @@ while dif>tol && nIter<iterMax
     %change, but not the zero level set, that it really is what we are
     %looking for.
     dif = mean(sum( (phi(:) - phi_old(:)).^2 ))
-          
+    
+    
     %Plot the level sets surface
     subplot(1,2,1) 
         %The level set function
-        surfc(??)  %TODO 16: Line to complete 
+        surfc(phi)  %TODO 16: Line to complete 
         hold on
         %The zero level set over the surface
-        contour(??); %TODO 17: Line to complete
+        contour(phi); %TODO 17: Line to complete
         hold off
         title('Phi Function');
     
@@ -100,7 +116,7 @@ while dif>tol && nIter<iterMax
         imagesc(I);        
         colormap gray;
         hold on;
-        contour(??) %TODO 18: Line to complete
+        contour(phi) %TODO 18: Line to complete
         title('Image and zero level set of Phi')
 
         axis off;
