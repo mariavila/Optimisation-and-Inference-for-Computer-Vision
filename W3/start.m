@@ -8,6 +8,7 @@ I=double(imread('circles.png'));
 %I=double(imread('noisedCircles.tif'));
 %I=double(imread('phantom17.bmp'));
 %I=double(imread('phantom18.bmp'));
+%I = double(imread('Image_to_Restore.png'));
 I=mean(I,3);
 I=I-min(I(:));
 I=I/max(I(:));
@@ -59,8 +60,6 @@ phi_0=(-sqrt( ( X-round(ni/2)).^2 + (Y-round(nj/2)).^2)+50);
 phi_0=phi_0-min(phi_0(:));
 phi_0=2*phi_0/max(phi_0(:));
 phi_0=phi_0-1;
-
-
 
 %%Explicit Gradient Descent
 seg=sol_ChanVeseIpol_GDExp( I, phi_0, mu, nu, eta, lambda1, lambda2, tol, epHeaviside, dt, iterMax, reIni );
