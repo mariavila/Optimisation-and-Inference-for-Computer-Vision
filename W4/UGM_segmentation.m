@@ -39,9 +39,6 @@ mu_color=gmm_color.mu;
 % TODO: define the unary energy term: data_term
 % nodePot = P( color at pixel 'x' | Cluster color 'c' )
 data_term=gmm_color.posterior(x);
-
-%[~,c] = max(data_term,[],2);
-
 nodePot = data_term;
 
 %Building 4-grid
@@ -61,7 +58,10 @@ if ~isempty(edgePot)
     % Call different UGM inference algorithms
     display('Loopy Belief Propagation'); tic;
     [nodeBelLBP,edgeBelLBP,logZLBP] = UGM_Infer_LBP(nodePot,edgePot,edgeStruct);toc;
-    im_lbp = max(nodeBelLBP,[],2);
+    %im_lbp = max(nodeBelLBP,[],2);
+    
+    [~,c_loopy] = max(nodeBelLBP,[],2);
+    im_lbp = reshape(mu_color(c_loopy,:),size(im));
     
     % Max-sum
     display('Max-sum'); tic;
