@@ -6,37 +6,49 @@ function [edgePot,edgeStruct]=CreateGridUGMModel(NumFils, NumCols, K, lambda)
 % lambda: smoothing factor
 tic
 
-nNodes = NumFils * NumCols;
-adj = zeros(nNodes,nNodes);
+%Vector counter
+idx=1;
+%Fill in sparse matrix
 for i=1:NumFils
     for j=1:NumCols
-        p = j*NumFils+i;
+        p = (j-1)*NumFils+i;
         if i~=1
             %Adjacency with north pixel
-            p_north = p-1;
-            adj(p, p_north)=1;
+            idx_Ai(idx)= p; 
+            idx_Aj(idx) = p-1; 
+            a_ij(idx) = 1;
+            idx=idx+1; 
         end
         if i~=NumFils
             %Adjacency with south pixel
-            p_south = p+1;
-            adj(p, p_south)=1;
+            idx_Ai(idx)= p; 
+            idx_Aj(idx) = p+1; 
+            a_ij(idx) = 1;
+            idx=idx+1; 
         end
         if j~=1
             %Adjacency with west pixel
-            p_west = p-NumFils;
-            adj(p, p_west)=1;
+            idx_Ai(idx)= p; 
+            idx_Aj(idx) = p-NumFils; 
+            a_ij(idx) = 1;
+            idx=idx+1;
         end
         if j~=NumCols
             %Adjacency with east pixel
-            p_east = p+NumFils;
-            adj(p, p_east)=1;
+            idx_Ai(idx)= p; 
+            idx_Aj(idx) = p+NumFils; 
+            a_ij(idx) = 1;
+            idx=idx+1;
         end
         
     end
 end
-
+%Create edge structure
+nNodes = NumFils * NumCols;
+adj = sparse(idx_Ai, idx_Aj, a_ij, nNodes, nNodes); % 
 edgeStruct = UGM_makeEdgeStruct(adj,K);
 
+%Create the edge potential structure
 %https://www.cs.ubc.ca/~schmidtm/Software/UGM/graphCuts.html
 edgePot = zeros(nStates,nStates,edgeStruct.nEdges);
 for e = 1:edgeStruct.nEdges
