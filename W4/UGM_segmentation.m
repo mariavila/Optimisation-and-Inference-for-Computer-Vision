@@ -19,7 +19,8 @@ K=4; % Number of color clusters (=number of states of hidden variables)
 smooth_term=[0.0 2]; % Potts Model
 
 %Load images
-im = imread(im_name);
+im = double(imread(im_name));
+x=reshape(im,[size(im,1)*size(im,2)*size(im,3)]);
 
 
 NumFils = size(im,1);
@@ -33,12 +34,14 @@ NumCols = size(im,2);
 
 
 %Preparing data for GMM fiting
-%
+gmm_color = gmdistribution.fit(x,K);
+mu_color=gmm_color.mu;
 % TODO: define the unary energy term: data_term
-% nodePot = P( color at pixel 'x' | Cluster color 'c' )  
+% nodePot = P( color at pixel 'x' | Cluster color 'c' )
+data_term=gmm_color.posterior(x);
+[∼,c] = max(data_term,[],2);
 
-
-nodePot=[];
+nodePot = []
 
 
 
