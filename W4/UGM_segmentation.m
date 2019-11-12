@@ -20,7 +20,7 @@ smooth_term=[0.0 2]; % Potts Model
 
 %Load images
 im = double(imread(im_name));
-x=reshape(im,[size(im,1)*size(im,2)*size(im,3)]);
+x=reshape(im,[size(im,1)*size(im,2) size(im,3)]);
 
 
 NumFils = size(im,1);
@@ -39,11 +39,10 @@ mu_color=gmm_color.mu;
 % TODO: define the unary energy term: data_term
 % nodePot = P( color at pixel 'x' | Cluster color 'c' )
 data_term=gmm_color.posterior(x);
-[∼,c] = max(data_term,[],2);
 
-nodePot = []
+%[~,c] = max(data_term,[],2);
 
-
+nodePot = data_term;
 
 %Building 4-grid
 %Build UGM Model for 4-connected segmentation
@@ -56,7 +55,7 @@ disp('create UGM model');
 if ~isempty(edgePot)
 
     % color clustering
-    [~,c] = min(reshape(data_term,[NumFils*NumCols K]),[],2);
+    [~,c] = max(reshape(data_term,[NumFils*NumCols K]),[],2);
     im_c= reshape(mu_color(c,:),size(im));
     
     % Call different UGM inference algorithms
@@ -77,10 +76,15 @@ if ~isempty(edgePot)
     % - Linear Programing Relaxation
     
     figure
-    subplot(2,2,1),imshow(Lab2RGB(im));xlabel('Original');
-    subplot(2,2,2),imshow(Lab2RGB(im_c),[]);xlabel('Clustering without GM');
-    subplot(2,2,3),imshow(Lab2RGB(im_bp),[]);xlabel('Max-Sum');
-    subplot(2,2,4),imshow(Lab2RGB(im_lbp),[]);xlabel('Loopy Belief Propagation');
+    subplot(2,2,1),imshow(im/255,[]);xlabel('Original');
+    subplot(2,2,2),imshow(im_c/255, []);xlabel('Clustering without GM');
+    subplot(2,2,3),imshow(im_bp/255, []);xlabel('Max-Sum');
+    subplot(2,2,4),imshow(im_lbp/255, []);xlabel('Loopy Belief Propagation');
+    %figure
+    %subplot(2,2,1),imshow(Lab2RGB(im));xlabel('Original');
+    %subplot(2,2,2),imshow(Lab2RGB(im_c),[]);xlabel('Clustering without GM');
+    %subplot(2,2,3),imshow(Lab2RGB(im_bp),[]);xlabel('Max-Sum');
+    %subplot(2,2,4),imshow(Lab2RGB(im_lbp),[]);xlabel('Loopy Belief Propagation');
     
 else
    

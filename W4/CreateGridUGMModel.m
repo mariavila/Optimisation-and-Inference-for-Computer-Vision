@@ -50,13 +50,15 @@ edgeStruct = UGM_makeEdgeStruct(adj,K);
 
 %Create the edge potential structure
 %https://www.cs.ubc.ca/~schmidtm/Software/UGM/graphCuts.html
-edgePot = zeros(nStates,nStates,edgeStruct.nEdges);
+edgePot = zeros(K,K,edgeStruct.nEdges);
 for e = 1:edgeStruct.nEdges
    n1 = edgeStruct.edgeEnds(e,1);
    n2 = edgeStruct.edgeEnds(e,2);
 
-   pot_same = exp(1.8 + 0.3*1/(1+abs(Xstd(n1)-Xstd(n2))));
-   edgePot(:,:,e) = [pot_same 1;1 pot_same];
+   %pot_same = exp(1.8 + 0.3*1/(1+abs(Xstd(n1)-Xstd(n2))));
+   pot_same = 1;
+   pot_dif = 0.1;
+   edgePot(:,:,e) = [pot_same pot_dif pot_dif pot_dif;pot_dif pot_same pot_dif pot_dif;pot_dif pot_dif pot_same pot_dif;pot_dif pot_dif pot_dif pot_same];
 end
 
 toc;
