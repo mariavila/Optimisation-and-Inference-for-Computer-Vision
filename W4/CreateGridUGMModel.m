@@ -56,8 +56,8 @@ for e = 1:edgeStruct.nEdges
    n2 = edgeStruct.edgeEnds(e,2);
 
    %pot_same = exp(1.8 + 0.3*1/(1+abs(Xstd(n1)-Xstd(n2))));
-   pot_same = 1;
-   pot_dif = 0.1;
+   pot_same = exp(lambda(2));
+   pot_dif = exp(lambda(1));
    edgePot(:,:,e) = [pot_same pot_dif pot_dif pot_dif;pot_dif pot_same pot_dif pot_dif;pot_dif pot_dif pot_same pot_dif;pot_dif pot_dif pot_dif pot_same];
 end
 

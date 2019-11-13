@@ -79,6 +79,18 @@ if ~isempty(edgePot)
     %decodeLinProg = UGM_Decode_LinProg(nodePot,edgePot,edgeStruct); 
     %im_lp= reshape(mu_color(decodeLinProg,:),size(im));
     %toc;
+    % - Iterated Conditional Modes
+    display('Iterated Conditional Modes'); tic;
+    decodeICM = UGM_Decode_ICM(nodePot,edgePot,edgeStruct); 
+    im_dicm= reshape(mu_color(decodeICM,:),size(im));
+    toc;
+    % ICM with Restarts
+     display('ICM with Restarts'); tic;
+     nRestarts = 1000;
+     decodeICMR = UGM_Decode_ICMrestart(nodePot,edgePot,edgeStruct, nRestarts);
+     im_dicmr= reshape(mu_color(decodeICMR,:),size(im));
+     toc;
+    
     
     
     figure
@@ -86,6 +98,8 @@ if ~isempty(edgePot)
     subplot(2,3,2),imshow(im_c/255, []);xlabel('Clustering without GM');
     subplot(2,3,3),imshow(im_bp/255, []);xlabel('Max-Sum');
     subplot(2,3,4),imshow(im_lbp/255, []);xlabel('Loopy Belief Propagation');
+    subplot(2,3,5),imshow(im_dicm/255, []);xlabel('Iterated Conditional Modes');
+    subplot(2,3,6),imshow(im_dicmr/255, []);xlabel('ICM with Restarts');
     %subplot(2,3,5),imshow(im_dgc/255, []);xlabel('Graph Cut');
     %subplot(2,3,6),imshow(im_lp/255, []);xlabel('Linear Programming');
     %figure
