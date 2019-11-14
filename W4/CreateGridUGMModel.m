@@ -58,7 +58,14 @@ for e = 1:edgeStruct.nEdges
    %pot_same = exp(1.8 + 0.3*1/(1+abs(Xstd(n1)-Xstd(n2))));
    pot_same = exp(lambda(2));
    pot_dif = exp(lambda(1));
-   edgePot(:,:,e) = [pot_same pot_dif pot_dif pot_dif;pot_dif pot_same pot_dif pot_dif;pot_dif pot_dif pot_same pot_dif;pot_dif pot_dif pot_dif pot_same];
+   
+   arr_diag = eye(K);
+   arr_outer = ones(K)-arr_diag;
+   arr_diag = arr_diag*pot_same;
+   arr_outer = arr_outer*pot_dif;
+   edgePot(:,:,e) = arr_diag+arr_outer;
+   
+%    edgePot(:,:,e) = [pot_same pot_dif pot_dif pot_dif;pot_dif pot_same pot_dif pot_dif;pot_dif pot_dif pot_same pot_dif;pot_dif pot_dif pot_dif pot_same];
 end
 
 toc;
